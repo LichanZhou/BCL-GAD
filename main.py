@@ -441,19 +441,11 @@ def anomaly_detection(encoder, target_dataset, modal_weights, source_protos, thr
         return anomalies, residuals.numpy()
 
 if __name__ == "__main__":
-    # -------------------------- 1. 模拟数据（替换为真实数据）--------------------------
+
     # 源域数据（社交网络）
-    source_graph = Data(x=torch.randn(200, 10), edge_index=torch.randint(0, 200, (2, 500)))  # 拓扑特征
-    text_phrases = ["friend", "real user", "social post"]
-    # 构造200个文本片段（随机从3个短语中选择，每个节点1个）
-    source_text = [random.choice(text_phrases) for _ in range(200)]  # 长度=200，正确！
-    source_attr = np.random.randn(200, 5)  # 属性数据
     source_dataset = MultimodalGraphDataset(source_graph, source_text, source_attr, is_source_domain=True)
 
     # 目标域数据（金融网络）
-    target_graph = Data(x=torch.randn(150, 10), edge_index=torch.randint(0, 150, (2, 300)))
-    target_text = ["transaction", "cross-border settlement", "real payment"] * 50  # 新域文本特征
-    target_attr = np.random.randn(150, 5)
     target_dataset = MultimodalGraphDataset(target_graph, target_text, target_attr, is_source_domain=False)
 
     # -------------------------- 2. 多模态因果调整对比对 --------------------------
